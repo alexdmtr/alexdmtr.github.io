@@ -1,3 +1,3 @@
 # alex-dmtr.github.io
 
-My personal site.
+My personal GitHub page.
