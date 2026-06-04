@@ -9,6 +9,8 @@ export type Experience = {
   period: string;
   summary: string;
   tags: string[];
+  /** Path to a bundled logo (in public/). Falls back to an initials monogram if omitted. */
+  logo?: string;
 };
 
 export type StackGroup = {
@@ -137,36 +139,40 @@ export const site: SiteContent = {
     body: "A career spanning quantitative finance, gaming infrastructure, and fintech — focused on building tools that handle complexity without passing it to the user.",
     roles: [
       {
-        company: "QRT (Qube Research & Technologies)",
+        company: "Qube Research & Technologies",
         role: "Lead Software Engineer",
         period: "2023 — present",
         summary:
           "Led the React/TypeScript migration of portfolio-analysis tools. Implemented AG Grid viewport-model streaming over WebSockets, cutting initial network payloads from 800MB to 0.77KB. Cross-office collaboration between London and Paris.",
         tags: ["React", "TypeScript", "AG Grid", "WebSockets", "C#"],
+        logo: "/logos/qrt.png",
       },
       {
-        company: "Citadel / Citadel Securities",
+        company: "Citadel",
         role: "Software Engineer",
         period: "2020 — 2022",
         summary:
           "Built trading dashboard applications with React, TypeScript, GraphQL and gRPC. Automated PnL analysis workflows and co-led development of a bank-wires processing application.",
         tags: ["React", "TypeScript", "GraphQL", "gRPC", "MUI"],
-      },
-      {
-        company: "Morgan Stanley",
-        role: "Software Engineer",
-        period: "2019 — 2020",
-        summary:
-          "Developed Python GIS tools for the real estate investment team, building geospatial data-visualisation and analysis pipelines.",
-        tags: ["Python", "GIS", "Data visualisation"],
+        logo: "/logos/citadel.png",
       },
       {
         company: "Improbable",
-        role: "Software Engineer",
+        role: "Software Engineering Intern",
         period: "2018 — 2019",
         summary:
           "Built a Go-based game-launcher desktop application and web services for the SpatialOS platform.",
         tags: ["Go", "Desktop apps", "Web services"],
+        logo: "/logos/improbable.png",
+      },
+      {
+        company: "Morgan Stanley",
+        role: "Technology Analyst Intern",
+        period: "2019 — 2020",
+        summary:
+          "Developed Python GIS tools for the real estate investment team, building geospatial data-visualisation and analysis pipelines.",
+        tags: ["Python", "GIS", "Data visualisation"],
+        logo: "/logos/morgan-stanley.png",
       },
       {
         company: "EXE Software",

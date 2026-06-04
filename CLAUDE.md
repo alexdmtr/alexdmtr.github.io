@@ -56,13 +56,15 @@ lib/
 - All styling is inline Tailwind utility classes — no separate CSS class names (except the background helpers `pg-grid` / `pg-glow` in globals.css).
 - Design tokens are prefixed `pg-` to avoid shadcn collisions (e.g. `bg-pg-surface`, `text-pg-muted`, `border-pg-line`, `text-pg-accent`). Light values in `@theme`, dark in `.dark {}`.
 - Fluid sizing vars: `--text-display`, `--text-section`, `--text-hero-copy`, `--spacing-section`, `--spacing-page`.
-- Fonts: `--font-sans` (Space Grotesk) body, `--font-display` (Syne) headings — loaded via `next/font/google` in `layout.tsx`.
+- Fonts: `--font-sans` (Inter) body, `--font-display` (Inter Tight) headings — both variable fonts loaded via `next/font/google` in `layout.tsx`.
 - Element resets (`a`, `body`, `button`, `::selection`) **must** stay inside `@layer base` in `globals.css`. Unlayered CSS outranks Tailwind's `@layer utilities`, so an unlayered `a { color: inherit }` would override `text-*` color utilities on links (this previously made a button label invisible).
 - `@keyframes rise-in` drives the hero entrance (CSS, staggered via `[animation-delay:…]`); scroll sections use `Reveal`. Both respect `prefers-reduced-motion`.
 
 ## Content editing
 
 All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience, stack (tech), leadership, awards, education, footer.
+
+Each experience role can set `logo: "/logos/<file>.png"` (served from `public/logos/`, bundled brand favicons). Roles without a `logo` fall back to an initials monogram (`CompanyLogo` in `portfolio-page.tsx`). Logos render on a white rounded tile so any logo colour reads in both themes.
 
 > Email is intentionally **not** published on the site. Public links are GitHub and LinkedIn only (`site.socials`), shown as icons in the nav and as text links in the footer.
 

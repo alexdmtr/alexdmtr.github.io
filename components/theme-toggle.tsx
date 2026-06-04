@@ -13,10 +13,26 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(THEME_KEY) as Theme | null;
-    const current =
-      saved ?? (document.documentElement.classList.contains("dark") ? "dark" : "light");
-    setTheme(current);
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const resolve = (): Theme => {
+      const saved = window.localStorage.getItem(THEME_KEY) as Theme | null;
+      if (saved === "light" || saved === "dark") return saved;
+      return mql.matches ? "dark" : "light";
+    };
+
+    setTheme(resolve());
+
+    // While the user hasn't made an explicit choice, follow the device theme live.
+    const onSystemChange = () => {
+      if (window.localStorage.getItem(THEME_KEY)) return;
+      const next: Theme = mql.matches ? "dark" : "light";
+      document.documentElement.classList.toggle("dark", next === "dark");
+      setTheme(next);
+    };
+
+    mql.addEventListener("change", onSystemChange);
+    return () => mql.removeEventListener("change", onSystemChange);
   }, []);
 
   function toggle() {

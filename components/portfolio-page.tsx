@@ -38,6 +38,37 @@ function Chip({ children }: { children: string }) {
   );
 }
 
+function initials(company: string) {
+  const words = company
+    .replace(/\(.*?\)/g, "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  return ((words[0]?.[0] ?? "") + (words[1]?.[0] ?? "")).toUpperCase();
+}
+
+function CompanyLogo({ company, logo }: { company: string; logo?: string }) {
+  return (
+    <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-pg-tile p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.1)] ring-1 ring-black/5 dark:shadow-none dark:ring-white/10">
+      {logo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logo}
+          alt={`${company} logo`}
+          width={40}
+          height={40}
+          loading="lazy"
+          className="h-9 w-9 object-contain"
+        />
+      ) : (
+        <span className="font-[family-name:var(--font-display)] text-base font-bold tracking-tight text-zinc-900">
+          {initials(company)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export function PortfolioPage() {
   return (
     <>
@@ -124,22 +155,29 @@ export function PortfolioPage() {
         <section id="work" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
           <SectionHeading index="01 / Experience" title={site.experience.title} body={site.experience.body} />
 
-          <ol className="relative ml-1 border-l border-pg-line">
+          <ol className="grid gap-8">
             {site.experience.roles.map((role, i) => (
-              <Reveal as="li" key={role.company} delay={i * 0.05} className="relative pb-12 pl-8 last:pb-0">
-                <span className="absolute -left-[6.5px] top-1.5 h-3 w-3 rounded-full border-2 border-pg-bg bg-pg-accent" />
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="font-[family-name:var(--font-display)] text-[1.5rem] font-bold tracking-[-0.02em]">
-                    {role.company}
-                  </h3>
-                  <span className="text-sm text-pg-faint">{role.period}</span>
-                </div>
-                <p className="mt-0.5 text-sm font-medium text-pg-accent">{role.role}</p>
-                <p className="mt-3 max-w-[52rem] leading-relaxed text-pg-muted">{role.summary}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {role.tags.map((tag) => (
-                    <Chip key={tag}>{tag}</Chip>
-                  ))}
+              <Reveal
+                as="li"
+                key={role.company}
+                delay={i * 0.05}
+                className="flex gap-5 border-b border-pg-line pb-8 last:border-0 last:pb-0"
+              >
+                <CompanyLogo company={role.company} logo={role.logo} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 className="font-[family-name:var(--font-display)] text-[1.5rem] font-bold tracking-[-0.02em]">
+                      {role.company}
+                    </h3>
+                    <span className="text-sm text-pg-faint">{role.period}</span>
+                  </div>
+                  <p className="mt-0.5 text-sm font-medium text-pg-accent">{role.role}</p>
+                  <p className="mt-3 max-w-[52rem] leading-relaxed text-pg-muted">{role.summary}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {role.tags.map((tag) => (
+                      <Chip key={tag}>{tag}</Chip>
+                    ))}
+                  </div>
                 </div>
               </Reveal>
             ))}

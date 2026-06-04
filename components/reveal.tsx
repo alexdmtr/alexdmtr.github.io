@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -19,6 +19,12 @@ const MotionTags = {
 
 export function Reveal({ children, className, delay = 0, as = "div" }: Props) {
   const Tag = MotionTags[as];
+  const reduceMotion = useReducedMotion();
+
+  // With reduced motion, render content immediately at its final state.
+  if (reduceMotion) {
+    return <Tag className={className}>{children}</Tag>;
+  }
 
   return (
     <Tag

@@ -3,8 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-space-grotesk), "Avenir Next", "Segoe UI", sans-serif;
-  --font-display: var(--font-syne), var(--font-space-grotesk), sans-serif;
+  --font-sans: var(--font-inter), "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;
 
   /* Portfolio tokens — prefixed pg- to avoid shadcn collisions.
      Default (light) values below; dark overrides in .dark {} */
@@ -19,6 +19,10 @@
   --color-pg-accent-2: #ff9347;
   --color-pg-line: rgba(18, 19, 23, 0.1);
   --color-pg-line-strong: rgba(18, 19, 23, 0.18);
+
+  /* Background behind company logos (logos are dark-on-transparent, so the
+     tile must stay light); softened in dark mode so it doesn't glare. */
+  --color-pg-tile: #ffffff;
 
   --shadow-card: 0 20px 60px rgba(20, 18, 16, 0.1);
   --shadow-glow: 0 0 0 1px rgba(255, 93, 46, 0.18), 0 18px 60px rgba(255, 93, 46, 0.12);
@@ -46,6 +50,8 @@
   --color-pg-accent-2: #ffa45c;
   --color-pg-line: rgba(255, 255, 255, 0.09);
   --color-pg-line-strong: rgba(255, 255, 255, 0.16);
+  /* Slightly translucent so the dark page tints it to a soft off-white. */
+  --color-pg-tile: rgba(235, 235, 240, 0.92);
 
   --shadow-card: 0 24px 80px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 0 1px rgba(255, 106, 61, 0.25), 0 18px 70px rgba(255, 106, 61, 0.18);

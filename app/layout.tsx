@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Space_Grotesk, Syne } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
 
 import { site } from "@/content/site";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const syne = Syne({
+const interTight = Inter_Tight({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-syne",
+  variable: "--font-inter-tight",
   display: "swap",
 });
 
@@ -31,13 +30,16 @@ export const metadata: Metadata = {
 };
 
 // Set the theme class before paint to avoid a flash of the wrong theme.
+// Default follows the device (prefers-color-scheme); an explicit toggle choice
+// stored in localStorage overrides it.
 const themeScript = `
 (function () {
   try {
     var t = localStorage.getItem('alexdmtr-theme');
-    if (!t) t = 'dark';
-    if (t === 'dark') document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.classList.toggle('dark', t === 'dark');
   } catch (e) {
     document.documentElement.classList.add('dark');
   }
@@ -50,7 +52,11 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${spaceGrotesk.variable} ${syne.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`dark ${inter.variable} ${interTight.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
