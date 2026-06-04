@@ -47,9 +47,22 @@ function initials(company: string) {
   return ((words[0]?.[0] ?? "") + (words[1]?.[0] ?? "")).toUpperCase();
 }
 
-function CompanyLogo({ company, logo }: { company: string; logo?: string }) {
+function CompanyLogo({
+  company,
+  logo,
+  sm,
+}: {
+  company: string;
+  logo?: string;
+  sm?: boolean;
+}) {
+  const box = sm
+    ? "h-10 w-10 rounded-xl p-2"
+    : "h-14 w-14 rounded-2xl p-2.5";
   return (
-    <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-pg-tile p-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.1)] ring-1 ring-black/5 dark:shadow-none dark:ring-white/10">
+    <div
+      className={`grid ${box} shrink-0 place-items-center overflow-hidden bg-pg-tile shadow-[0_2px_8px_rgba(0,0,0,0.1)] ring-1 ring-black/5 dark:shadow-none dark:ring-white/10`}
+    >
       {logo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -58,10 +71,12 @@ function CompanyLogo({ company, logo }: { company: string; logo?: string }) {
           width={40}
           height={40}
           loading="lazy"
-          className="h-9 w-9 object-contain"
+          className="h-full w-full object-contain"
         />
       ) : (
-        <span className="font-[family-name:var(--font-display)] text-base font-bold tracking-tight text-zinc-900">
+        <span
+          className={`font-[family-name:var(--font-display)] font-bold tracking-tight text-zinc-900 ${sm ? "text-sm" : "text-base"}`}
+        >
           {initials(company)}
         </span>
       )}
@@ -169,19 +184,44 @@ export function PortfolioPage() {
                     <h3 className="font-[family-name:var(--font-display)] text-[1.5rem] font-bold tracking-[-0.02em]">
                       {role.company}
                     </h3>
-                    <span className="text-sm text-pg-faint">{role.period}</span>
+                    {role.period && <span className="text-sm text-pg-faint">{role.period}</span>}
                   </div>
                   <p className="mt-0.5 text-sm font-medium text-pg-accent">{role.role}</p>
-                  <p className="mt-3 max-w-[52rem] leading-relaxed text-pg-muted">{role.summary}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {role.tags.map((tag) => (
-                      <Chip key={tag}>{tag}</Chip>
-                    ))}
-                  </div>
+                  {role.summary && (
+                    <p className="mt-3 max-w-[52rem] leading-relaxed text-pg-muted">{role.summary}</p>
+                  )}
+                  {role.tags && role.tags.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {role.tags.map((tag) => (
+                        <Chip key={tag}>{tag}</Chip>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </Reveal>
             ))}
           </ol>
+
+          {/* Earlier / internship roles — de-emphasised */}
+          <Reveal className="mt-12 border-t border-pg-line pt-8">
+            <h3 className="mb-5 text-xs uppercase tracking-[0.22em] text-pg-faint">
+              {site.experience.earlierTitle}
+            </h3>
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {site.experience.earlier.map((role) => (
+                <li key={role.company} className="flex items-center gap-3">
+                  <CompanyLogo company={role.company} logo={role.logo} sm />
+                  <div className="min-w-0">
+                    <p className="truncate font-medium">{role.company}</p>
+                    <p className="truncate text-xs text-pg-muted">{role.role}</p>
+                    {role.period && (
+                      <p className="text-xs text-pg-faint">{role.period}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </section>
 
         {/* Tech stack */}
@@ -260,24 +300,6 @@ export function PortfolioPage() {
               </Reveal>
             ))}
           </div>
-        </section>
-
-        {/* Education */}
-        <section className={`${container} mt-[var(--spacing-section)]`}>
-          <Reveal className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-pg-line bg-pg-surface p-8 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <span className="text-xs uppercase tracking-[0.22em] text-pg-faint">
-                {site.education.title}
-              </span>
-              <h3 className="mt-2 font-[family-name:var(--font-display)] text-[1.6rem] font-bold tracking-[-0.02em]">
-                {site.education.degree}
-              </h3>
-              <p className="mt-1 text-pg-muted">{site.education.school}</p>
-            </div>
-            <span className="inline-flex w-fit items-center rounded-full border border-pg-accent/40 px-4 py-2 text-sm font-medium text-pg-accent">
-              {site.education.detail}
-            </span>
-          </Reveal>
         </section>
 
         {/* Footer */}

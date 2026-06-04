@@ -62,9 +62,9 @@ lib/
 
 ## Content editing
 
-All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience, stack (tech), leadership, awards, education, footer.
+All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience (includes education), stack (tech), leadership, awards, footer.
 
-Each experience role can set `logo: "/logos/<file>.png"` (served from `public/logos/`, bundled brand favicons). Roles without a `logo` fall back to an initials monogram (`CompanyLogo` in `portfolio-page.tsx`). Logos render on a white rounded tile so any logo colour reads in both themes.
+Experience is split into `roles` (featured — full timeline rows) and `earlier` (de-emphasised internships/early roles, rendered as a compact grid under `earlierTitle`). Education (University of Manchester) is a featured `role`, not a separate section. Each role can set `logo: "/logos/<file>"` (png or svg, from `public/logos/`); without one it falls back to an initials monogram (`CompanyLogo`, which has an `sm` variant for the earlier grid). `period`, `summary`, and `tags` are optional. Logo tiles use the theme-aware `--color-pg-tile` token so any logo colour reads in both themes.
 
 > Email is intentionally **not** published on the site. Public links are GitHub and LinkedIn only (`site.socials`), shown as icons in the nav and as text links in the footer.
 
