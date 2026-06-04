@@ -1,291 +1,233 @@
-import type { Locale } from "@/lib/i18n";
-
-type Stat = {
+export type Stat = {
   value: string;
   label: string;
 };
 
-type Project = {
-  title: string;
+export type Experience = {
+  company: string;
+  role: string;
+  period: string;
   summary: string;
   tags: string[];
 };
 
-type Detail = {
+export type StackGroup = {
   title: string;
   body: string;
   points: string[];
 };
 
-type SiteCopy = {
-  localeLabel: string;
-  nav: {
-    intro: string;
-    systems: string;
-    work: string;
-    leadership: string;
+export type Detail = {
+  title: string;
+  body: string;
+  points: string[];
+};
+
+export type Award = {
+  title: string;
+  detail: string;
+};
+
+export type ContactLink = {
+  label: string;
+  value: string;
+  href: string;
+};
+
+export type SiteContent = {
+  meta: {
+    title: string;
+    description: string;
   };
-  controls: {
-    switchToLight: string;
-    switchToDark: string;
-    largeType: string;
-    standardType: string;
-  };
+  nav: { label: string; href: string }[];
   hero: {
     eyebrow: string;
-    title: string;
+    name: string;
     intro: string;
-    primaryCta: string;
-    secondaryCta: string;
-    panelTitle: string;
-    panelBody: string;
-    availability: string;
     location: string;
+    status: string;
+    primaryCta: { label: string; href: string };
+    secondaryCta: { label: string; href: string };
   };
   stats: Stat[];
-  systems: {
+  stack: {
     title: string;
     body: string;
-    cards: Detail[];
+    groups: StackGroup[];
   };
-  work: {
+  experience: {
     title: string;
     body: string;
-    projects: Project[];
+    roles: Experience[];
   };
   leadership: {
     title: string;
     body: string;
     items: Detail[];
   };
+  awards: {
+    title: string;
+    body: string;
+    items: Award[];
+  };
+  education: {
+    title: string;
+    school: string;
+    degree: string;
+    detail: string;
+  };
+  socials: ContactLink[];
   footer: string;
 };
 
-export const siteCopy: Record<Locale, SiteCopy> = {
-  en: {
-    localeLabel: "English",
-    nav: {
-      intro: "Intro",
-      systems: "Systems",
-      work: "Selected Work",
-      leadership: "Leadership"
-    },
-    controls: {
-      switchToLight: "Switch to light",
-      switchToDark: "Switch to dark",
-      largeType: "Large type",
-      standardType: "Standard type"
-    },
-    hero: {
-      eyebrow: "Lead UI Developer • UI-Focused Software Engineer",
-      title: "I design ambitious interfaces and build the systems that keep them sharp.",
-      intro:
-        "My sweet spot is the seam between product vision and frontend execution: translating strategy into resilient design systems, expressive interactions, and production-ready UI architecture that teams can scale with confidence.",
-      primaryCta: "Explore selected work",
-      secondaryCta: "Jump to design systems",
-      panelTitle: "Now building",
-      panelBody:
-        "Portfolio experiences that feel editorial, product surfaces that reward care, and frontend foundations that make quality visible at every layer.",
-      availability: "Open to lead UI, frontend architecture, and product design engineering roles.",
-      location: "Based in Europe, collaborating globally."
-    },
-    stats: [
-      { value: "10+", label: "years shaping polished product UI" },
-      { value: "0 to 1", label: "experience translating concepts into real products" },
-      { value: "Design x Eng", label: "leadership across craft, systems, and delivery" }
-    ],
-    systems: {
-      title: "Design systems that stay expressive under pressure.",
-      body:
-        "I care about visual personality and engineering discipline in equal measure. The best interfaces feel distinctive on day one, then become easier to extend on day one hundred.",
-      cards: [
-        {
-          title: "System thinking",
-          body:
-            "I build scalable UI primitives, token strategies, and documentation patterns that preserve craft instead of flattening it.",
-          points: [
-            "Tokens for color, motion, type, spacing, and density",
-            "Reusable interaction patterns with clear accessibility states",
-            "Architecture that supports experimentation without regressions"
-          ]
-        },
-        {
-          title: "Frontend quality",
-          body:
-            "I treat implementation as part of the design. Motion curves, edge cases, loading states, and responsive transitions all get intentional attention.",
-          points: [
-            "Production-minded React and component architecture",
-            "Performance and semantics considered from the first pass",
-            "Interfaces tuned for clarity, speed, and long-term maintainability"
-          ]
-        }
-      ]
-    },
-    work: {
-      title: "Selected directions",
-      body:
-        "The strongest teams I’ve been part of cared about both the surface and the substrate. These project stories are framed around visible product impact and the systems behind it.",
-      projects: [
-        {
-          title: "Editorial product marketing",
-          summary:
-            "Launch pages and campaign surfaces with bold art direction, composable sections, and motion that supports the story instead of overwhelming it.",
-          tags: ["Brand systems", "Motion language", "Composable CMS sections"]
-        },
-        {
-          title: "Application UI modernization",
-          summary:
-            "Mature product areas redesigned around information hierarchy, interaction polish, and scalable component patterns across complex workflows.",
-          tags: ["Design systems", "UX refinement", "Frontend architecture"]
-        },
-        {
-          title: "Prototyping for leadership buy-in",
-          summary:
-            "High-fidelity prototypes that align stakeholders early, reduce ambiguity for engineering, and make product ambition tangible.",
-          tags: ["Rapid prototyping", "Stakeholder alignment", "0 to 1 strategy"]
-        }
-      ]
-    },
-    leadership: {
-      title: "Leadership rooted in craft.",
-      body:
-        "As a lead, I like creating clarity: the design intent, the engineering path, and the quality bar all need to be visible so a team can move quickly without losing taste.",
-      items: [
-        {
-          title: "Mentoring through implementation",
-          body:
-            "I help teams reason about UI tradeoffs in code, not just in abstract design reviews.",
-          points: [
-            "Turning critique into practical patterns",
-            "Pairing on component architecture and interaction details",
-            "Raising standards without making delivery heavier"
-          ]
-        },
-        {
-          title: "Cross-functional translation",
-          body:
-            "I’m comfortable bridging product, design, and engineering so ideas survive contact with roadmap reality.",
-          points: [
-            "Clear framing for scope and sequencing",
-            "A shared language for quality and feasibility",
-            "Decision-making that protects both speed and product ambition"
-          ]
-        }
-      ]
-    },
-    footer: "Built with Next.js, localized routing, adaptive theme controls, and a UI language designed to feel unmistakably intentional."
+export const site: SiteContent = {
+  meta: {
+    title: "Alex Dumitru — Lead Software Engineer",
+    description:
+      "Lead software engineer building high-performance web applications at quantitative trading firms.",
   },
-  ro: {
-    localeLabel: "Romana",
-    nav: {
-      intro: "Intro",
-      systems: "Sisteme",
-      work: "Proiecte",
-      leadership: "Leadership"
-    },
-    controls: {
-      switchToLight: "Tema deschisa",
-      switchToDark: "Tema inchisa",
-      largeType: "Text mare",
-      standardType: "Text standard"
-    },
-    hero: {
-      eyebrow: "Lead UI Developer • Inginer software orientat spre UI",
-      title: "Construiesc interfete ambitioase si sistemele care le mentin clare, rapide si memorabile.",
-      intro:
-        "Zona mea forte este intre viziunea de produs si executia frontend: transform directia strategica in design systems solide, interactiuni expresive si arhitectura UI pregatita pentru productie.",
-      primaryCta: "Vezi proiectele",
-      secondaryCta: "Mergi la design systems",
-      panelTitle: "Acum construiesc",
-      panelBody:
-        "Experiente de portofoliu cu caracter editorial, produse digitale care recompenseaza atentia la detalii si fundatii frontend care fac vizibila calitatea.",
-      availability: "Disponibil pentru roluri de lead UI, arhitectura frontend si design engineering.",
-      location: "Bazat in Europa, colaborez international."
-    },
-    stats: [
-      { value: "10+", label: "ani construind interfete de produs rafinate" },
-      { value: "0 la 1", label: "experienta in transformarea conceptelor in produse reale" },
-      { value: "Design x Eng", label: "leadership intre craft, sisteme si delivery" }
+  nav: [
+    { label: "Work", href: "#work" },
+    { label: "Stack", href: "#stack" },
+    { label: "Leadership", href: "#leadership" },
+  ],
+  hero: {
+    eyebrow: "Lead Software Engineer",
+    name: "Alex Dumitru",
+    intro:
+      "I build high-performance web applications at quantitative trading firms. Currently at QRT in London, engineering React/TypeScript portfolio-analysis tools with real-time data streaming.",
+    location: "London, UK",
+    status: "Open to interesting conversations",
+    primaryCta: { label: "View work", href: "#work" },
+    secondaryCta: { label: "Tech stack", href: "#stack" },
+  },
+  stats: [
+    { value: "8+", label: "years of professional engineering, since 2016" },
+    { value: "800MB → 0.77KB", label: "network payload reduction at QRT" },
+    { value: "2min → 1s", label: "grid interaction time improvement" },
+  ],
+  stack: {
+    title: "Tech stack",
+    body: "Full-stack capability with a deep frontend specialism. I work across the stack but focus on building fast, maintainable interfaces for data-heavy applications.",
+    groups: [
+      {
+        title: "Frontend",
+        body: "Core expertise in React and TypeScript for complex financial UIs.",
+        points: [
+          "React, TypeScript, Next.js",
+          "AG Grid, eCharts, MUI, TanStack Query",
+          "Module federation, micro-frontends",
+          "CSS-in-JS, Tailwind, responsive design",
+        ],
+      },
+      {
+        title: "Backend & infrastructure",
+        body: "Comfortable building APIs, real-time pipelines, and deployment infrastructure.",
+        points: [
+          "Node.js, C#, ASP.NET, Go, Python",
+          "GraphQL, gRPC, SignalR, WebSockets",
+          "SQL Server, PostgreSQL",
+          "Docker, CI/CD, Git workflows",
+        ],
+      },
     ],
-    systems: {
-      title: "Design systems care raman expresive si sub presiune.",
-      body:
-        "Imi pasa in egala masura de personalitatea vizuala si de disciplina inginereasca. Cele mai bune interfete sunt distincte la inceput si mai usor de extins pe termen lung.",
-      cards: [
-        {
-          title: "Gandire sistemica",
-          body:
-            "Construiesc primitive UI scalabile, strategii de token-uri si moduri de documentare care pastreaza caracterul, nu il uniformizeaza.",
-          points: [
-            "Token-uri pentru culoare, miscare, tipografie, spatiere si densitate",
-            "Pattern-uri reutilizabile cu stari de accesibilitate clare",
-            "Arhitectura care sustine experimentarea fara regresii"
-          ]
-        },
-        {
-          title: "Calitate frontend",
-          body:
-            "Tratez implementarea ca parte din design. Curbele de miscare, edge cases, loading states si tranzitiile responsive sunt toate deliberate.",
-          points: [
-            "React si arhitectura de componente pregatite pentru productie",
-            "Performanta si semantica luate in calcul din primul pas",
-            "Interfete optimizate pentru claritate, viteza si mentenanta"
-          ]
-        }
-      ]
+  },
+  experience: {
+    title: "Experience",
+    body: "A career spanning quantitative finance, gaming infrastructure, and fintech — focused on building tools that handle complexity without passing it to the user.",
+    roles: [
+      {
+        company: "QRT (Qube Research & Technologies)",
+        role: "Lead Software Engineer",
+        period: "2023 — present",
+        summary:
+          "Led the React/TypeScript migration of portfolio-analysis tools. Implemented AG Grid viewport-model streaming over WebSockets, cutting initial network payloads from 800MB to 0.77KB. Cross-office collaboration between London and Paris.",
+        tags: ["React", "TypeScript", "AG Grid", "WebSockets", "C#"],
+      },
+      {
+        company: "Citadel / Citadel Securities",
+        role: "Software Engineer",
+        period: "2020 — 2022",
+        summary:
+          "Built trading dashboard applications with React, TypeScript, GraphQL and gRPC. Automated PnL analysis workflows and co-led development of a bank-wires processing application.",
+        tags: ["React", "TypeScript", "GraphQL", "gRPC", "MUI"],
+      },
+      {
+        company: "Morgan Stanley",
+        role: "Software Engineer",
+        period: "2019 — 2020",
+        summary:
+          "Developed Python GIS tools for the real estate investment team, building geospatial data-visualisation and analysis pipelines.",
+        tags: ["Python", "GIS", "Data visualisation"],
+      },
+      {
+        company: "Improbable",
+        role: "Software Engineer",
+        period: "2018 — 2019",
+        summary:
+          "Built a Go-based game-launcher desktop application and web services for the SpatialOS platform.",
+        tags: ["Go", "Desktop apps", "Web services"],
+      },
+      {
+        company: "EXE Software",
+        role: "Software Developer",
+        period: "2016 — 2018",
+        summary:
+          "Developed a Node.js bank-transaction processing server and supporting tooling at a Romanian fintech consultancy.",
+        tags: ["Node.js", "Banking", "SQL Server"],
+      },
+    ],
+  },
+  leadership: {
+    title: "Leadership",
+    body: "I lead through clarity and ownership — setting technical direction, unblocking teams, and keeping standards high without slowing delivery.",
+    items: [
+      {
+        title: "Team development",
+        body: "Grew people, not just code.",
+        points: [
+          "Managed an intern through to a full-time conversion",
+          "Technical mentoring at Pentalog",
+          "Cross-functional London/Paris collaboration at QRT",
+        ],
+      },
+      {
+        title: "Technical leadership",
+        body: "Drove architecture, review standards, and migrations across frontend teams.",
+        points: [
+          "Led the React/TypeScript migration at QRT",
+          "Co-led the bank-wires app at Citadel",
+          "Established component patterns and testing practices",
+        ],
+      },
+    ],
+  },
+  awards: {
+    title: "Awards",
+    body: "Competitive programming results from university and early career.",
+    items: [
+      { title: "Google Hash Code 2020", detail: "1st in Manchester · 4th in the UK" },
+      { title: "Goldman Sachs Algorithms Challenge 2018", detail: "1st place" },
+      { title: "Bet365 Coding Challenge 2020", detail: "2nd place" },
+    ],
+  },
+  education: {
+    title: "Education",
+    school: "University of Manchester",
+    degree: "BSc Computer Science & Mathematics",
+    detail: "First Class Honours",
+  },
+  socials: [
+    {
+      label: "GitHub",
+      value: "github.com/alexdmtr",
+      href: "https://github.com/alexdmtr",
     },
-    work: {
-      title: "Directii selectate",
-      body:
-        "Cele mai bune echipe din care am facut parte au tratat cu aceeasi seriozitate suprafata si fundatia produsului. Aceste exemple pun accent pe impactul vizibil si sistemele din spate.",
-      projects: [
-        {
-          title: "Product marketing editorial",
-          summary:
-            "Pagini de lansare si suprafete de campanie cu directie artistica puternica, sectiuni compozabile si motion care sustine povestea.",
-          tags: ["Brand systems", "Limbaj de miscare", "Sectiuni CMS compozabile"]
-        },
-        {
-          title: "Modernizare pentru application UI",
-          summary:
-            "Zone mature de produs redesenate in jurul ierarhiei informatiei, rafinamentului de interactiune si pattern-urilor scalabile pentru fluxuri complexe.",
-          tags: ["Design systems", "Rafinare UX", "Arhitectura frontend"]
-        },
-        {
-          title: "Prototipuri pentru buy-in executiv",
-          summary:
-            "Prototipuri high-fidelity care aliniaza stakeholderii devreme, reduc ambiguitatea pentru engineering si fac ambitia de produs tangibila.",
-          tags: ["Rapid prototyping", "Stakeholder alignment", "Strategie 0 la 1"]
-        }
-      ]
+    {
+      label: "LinkedIn",
+      value: "linkedin.com/in/alexdmtr",
+      href: "https://www.linkedin.com/in/alexdmtr",
     },
-    leadership: {
-      title: "Leadership ancorat in craft.",
-      body:
-        "Ca lead, imi place sa creez claritate: intentia de design, traseul tehnic si standardul de calitate trebuie sa fie vizibile, astfel incat echipa sa poata avansa rapid fara compromisuri de gust.",
-      items: [
-        {
-          title: "Mentorat prin implementare",
-          body:
-            "Ajut echipele sa discute tradeoff-urile UI direct in cod, nu doar in review-uri abstracte de design.",
-          points: [
-            "Transform feedback-ul in pattern-uri practice",
-            "Pairing pe arhitectura componentelor si detalii de interactiune",
-            "Ridic standardele fara sa ingreunez delivery-ul"
-          ]
-        },
-        {
-          title: "Traducere cross-functional",
-          body:
-            "Pot conecta produsul, designul si engineering-ul astfel incat ideile sa reziste contactului cu realitatea roadmap-ului.",
-          points: [
-            "Cadrare clara pentru scope si secventiere",
-            "Limbaj comun pentru calitate si fezabilitate",
-            "Decizii care protejeaza viteza si ambitia produsului"
-          ]
-        }
-      ]
-    },
-    footer: "Construit cu Next.js, routare localizata, controale adaptive de tema si un limbaj vizual gandit sa para intentionat din primul ecran."
-  }
+  ],
+  footer: "Designed & built with Next.js, Tailwind CSS and Framer Motion.",
 };

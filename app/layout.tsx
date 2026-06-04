@@ -1,32 +1,65 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Space_Grotesk, Syne } from "next/font/google";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import { site } from "@/content/site";
+import "./globals.css";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://alexdmtr.github.io"),
-  title: "Alex Dumitru | Lead UI Developer",
-  description:
-    "Lead UI developer and UI-focused software engineer crafting polished, high-impact product experiences.",
+  title: site.meta.title,
+  description: site.meta.description,
   openGraph: {
-    title: "Alex Dumitru | Lead UI Developer",
-    description:
-      "A bold portfolio landing page focused on product craft, systems thinking, and frontend leadership.",
-    type: "website"
-  }
+    title: site.meta.title,
+    description: site.meta.description,
+    type: "website",
+    url: "https://alexdmtr.github.io",
+  },
 };
 
+// Set the theme class before paint to avoid a flash of the wrong theme.
+const themeScript = `
+(function () {
+  try {
+    var t = localStorage.getItem('alexdmtr-theme');
+    if (!t) t = 'dark';
+    if (t === 'dark') document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  } catch (e) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+`;
+
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" data-scale="default" className={cn("font-sans", geist.variable)}>
-      <body>{children}</body>
+    <html lang="en" className={`dark ${spaceGrotesk.variable} ${syne.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
+        <div className="pg-grid" aria-hidden="true" />
+        <div className="pg-glow pg-glow--a" aria-hidden="true" />
+        <div className="pg-glow pg-glow--b" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   );
 }
