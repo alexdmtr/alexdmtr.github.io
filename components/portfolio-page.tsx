@@ -1,6 +1,7 @@
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Github } from "lucide-react";
 
 import { site } from "@/content/site";
+import type { Project } from "@/content/site";
 import { Reveal } from "./reveal";
 import { SiteNav } from "./site-nav";
 
@@ -38,6 +39,94 @@ function Chip({ children }: { children: string }) {
   );
 }
 
+function ProjectCard({ project }: { project: Project }) {
+  const primary = project.liveUrl ?? project.repoUrl;
+  return (
+    <article
+      className={`group flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border bg-pg-surface backdrop-blur-md transition-colors duration-300 ${
+        project.featured
+          ? "border-pg-accent/45 shadow-[var(--shadow-glow)]"
+          : "border-pg-line hover:border-pg-line-strong"
+      }`}
+    >
+      <a
+        href={primary}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`${project.title}${project.liveUrl ? " live demo" : " on GitHub"}`}
+        className="relative block aspect-[16/10] overflow-hidden border-b border-pg-line bg-pg-bg-soft"
+      >
+        {(project.context || project.wip) && (
+          <span
+            className={`absolute left-3 top-3 z-10 rounded-full px-2.5 py-1 text-[0.7rem] font-medium tracking-wide backdrop-blur-sm ${
+              project.wip
+                ? "bg-amber-400/90 text-amber-950"
+                : "bg-black/55 text-white"
+            }`}
+          >
+            {project.wip ? "Work in progress" : project.context}
+          </span>
+        )}
+        {project.featured && (
+          <span className="absolute right-3 top-3 z-10 rounded-full bg-pg-accent px-2.5 py-1 text-[0.7rem] font-semibold tracking-wide text-white">
+            Featured
+          </span>
+        )}
+        {project.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={project.image}
+            alt={`${project.title} screenshot`}
+            loading="lazy"
+            className={`h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] ${
+              project.wip ? "opacity-45 grayscale" : ""
+            }`}
+          />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-pg-accent to-pg-accent-2 p-4 text-center font-[family-name:var(--font-display)] text-2xl font-bold tracking-[-0.02em] text-white">
+            {project.title}
+          </span>
+        )}
+      </a>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-[family-name:var(--font-display)] text-[1.3rem] font-bold tracking-[-0.02em]">
+          {project.title}
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-pg-muted">{project.description}</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <Chip key={tag}>{tag}</Chip>
+          ))}
+        </div>
+        <div className="mt-auto flex flex-wrap gap-5 pt-5 text-sm">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 font-medium transition-colors duration-200 hover:text-pg-accent"
+            >
+              Live demo
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          )}
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-pg-muted transition-colors duration-200 hover:text-pg-text"
+            >
+              <Github className="h-4 w-4" />
+              Code
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function initials(company: string) {
   const words = company
     .replace(/\(.*?\)/g, "")
@@ -51,17 +140,19 @@ function CompanyLogo({
   company,
   logo,
   sm,
+  href,
 }: {
   company: string;
   logo?: string;
   sm?: boolean;
+  href?: string;
 }) {
   const box = sm
     ? "h-10 w-10 rounded-xl p-2"
     : "h-14 w-14 rounded-2xl p-2.5";
-  return (
-    <div
-      className={`grid ${box} shrink-0 place-items-center overflow-hidden bg-pg-tile shadow-[0_2px_8px_rgba(0,0,0,0.1)] ring-1 ring-black/5 dark:shadow-none dark:ring-white/10`}
+  const tile = (
+    <span
+      className={`grid ${box} shrink-0 place-items-center overflow-hidden bg-pg-tile shadow-[0_2px_8px_rgba(0,0,0,0.1)] ring-1 ring-black/5 transition-shadow dark:shadow-none dark:ring-white/10`}
     >
       {logo ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -80,7 +171,21 @@ function CompanyLogo({
           {initials(company)}
         </span>
       )}
-    </div>
+    </span>
+  );
+
+  if (!href) return tile;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${company} website`}
+      className="shrink-0 rounded-2xl transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pg-accent"
+    >
+      {tile}
+    </a>
   );
 }
 
@@ -178,11 +283,22 @@ export function PortfolioPage() {
                 delay={i * 0.05}
                 className="flex gap-5 border-b border-pg-line pb-8 last:border-0 last:pb-0"
               >
-                <CompanyLogo company={role.company} logo={role.logo} />
+                <CompanyLogo company={role.company} logo={role.logo} href={role.url} />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                     <h3 className="font-[family-name:var(--font-display)] text-[1.5rem] font-bold tracking-[-0.02em]">
-                      {role.company}
+                      {role.url ? (
+                        <a
+                          href={role.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="transition-colors duration-200 hover:text-pg-accent"
+                        >
+                          {role.company}
+                        </a>
+                      ) : (
+                        role.company
+                      )}
                     </h3>
                     {role.period && <span className="text-sm text-pg-faint">{role.period}</span>}
                   </div>
@@ -210,9 +326,22 @@ export function PortfolioPage() {
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {site.experience.earlier.map((role) => (
                 <li key={role.company} className="flex items-center gap-3">
-                  <CompanyLogo company={role.company} logo={role.logo} sm />
+                  <CompanyLogo company={role.company} logo={role.logo} href={role.url} sm />
                   <div className="min-w-0">
-                    <p className="truncate font-medium">{role.company}</p>
+                    <p className="truncate font-medium">
+                      {role.url ? (
+                        <a
+                          href={role.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="transition-colors duration-200 hover:text-pg-accent"
+                        >
+                          {role.company}
+                        </a>
+                      ) : (
+                        role.company
+                      )}
+                    </p>
                     <p className="truncate text-xs text-pg-muted">{role.role}</p>
                     {role.period && (
                       <p className="text-xs text-pg-faint">{role.period}</p>
@@ -254,49 +383,13 @@ export function PortfolioPage() {
           </div>
         </section>
 
-        {/* Leadership */}
-        <section id="leadership" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
-          <SectionHeading index="03 / Leadership" title={site.leadership.title} body={site.leadership.body} />
-          <div className="grid gap-4 md:grid-cols-2">
-            {site.leadership.items.map((item, i) => (
-              <Reveal
-                key={item.title}
-                as="article"
-                delay={i * 0.08}
-                className="rounded-[var(--radius-card)] border border-pg-line bg-pg-surface p-7 backdrop-blur-md"
-              >
-                <h3 className="font-[family-name:var(--font-display)] text-[1.35rem] font-bold tracking-[-0.02em]">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm text-pg-muted">{item.body}</p>
-                <ul className="mt-5 grid gap-3">
-                  {item.points.map((point) => (
-                    <li key={point} className="flex gap-3 text-[0.95rem] leading-relaxed">
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-pg-accent" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-
-        {/* Awards */}
-        <section className={`${container} mt-[var(--spacing-section)]`}>
-          <SectionHeading index="04 / Recognition" title={site.awards.title} body={site.awards.body} />
-          <div className="grid gap-4 sm:grid-cols-3">
-            {site.awards.items.map((award, i) => (
-              <Reveal
-                key={award.title}
-                as="article"
-                delay={i * 0.08}
-                className="rounded-[var(--radius-card)] border border-pg-line bg-pg-surface p-6 backdrop-blur-md"
-              >
-                <h3 className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold leading-tight tracking-[-0.01em]">
-                  {award.title}
-                </h3>
-                <p className="mt-2 text-sm text-pg-accent">{award.detail}</p>
+        {/* Portfolio */}
+        <section id="portfolio" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
+          <SectionHeading index="03 / Portfolio" title={site.portfolio.title} body={site.portfolio.body} />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {site.portfolio.projects.map((project, i) => (
+              <Reveal key={project.title} delay={(i % 2) * 0.08} className="h-full">
+                <ProjectCard project={project} />
               </Reveal>
             ))}
           </div>

@@ -62,7 +62,9 @@ lib/
 
 ## Content editing
 
-All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience (includes education), stack (tech), leadership, awards, footer.
+All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience (includes education), stack (tech), portfolio, footer.
+
+Portfolio projects (`site.portfolio.projects`, type `Project`) render as cards with a thumbnail from `public/projects/` (live-app screenshots; falls back to an accent-gradient placeholder if `image` is omitted), description, tag chips, and optional `liveUrl` / `repoUrl` links.
 
 Experience is split into `roles` (featured — full timeline rows) and `earlier` (de-emphasised internships/early roles, rendered as a compact grid under `earlierTitle`). Education (University of Manchester) is a featured `role`, not a separate section. Each role can set `logo: "/logos/<file>"` (png or svg, from `public/logos/`); without one it falls back to an initials monogram (`CompanyLogo`, which has an `sm` variant for the earlier grid). `period`, `summary`, and `tags` are optional. Logo tiles use the theme-aware `--color-pg-tile` token so any logo colour reads in both themes.
 

@@ -11,6 +11,8 @@ export type Experience = {
   tags?: string[];
   /** Path to a bundled logo (in public/). Falls back to an initials monogram if omitted. */
   logo?: string;
+  /** Company / institution website; makes the name and logo a link. */
+  url?: string;
 };
 
 export type StackGroup = {
@@ -19,15 +21,20 @@ export type StackGroup = {
   points: string[];
 };
 
-export type Detail = {
+export type Project = {
   title: string;
-  body: string;
-  points: string[];
-};
-
-export type Award = {
-  title: string;
-  detail: string;
+  description: string;
+  /** Thumbnail in public/projects/. Falls back to a gradient placeholder if omitted. */
+  image?: string;
+  /** Short context badge shown on the thumbnail, e.g. "Hackathon". */
+  context?: string;
+  /** Highlights the card with an accent border + "Featured" label. */
+  featured?: boolean;
+  /** Marks the project as work-in-progress (badge + dimmed thumbnail). */
+  wip?: boolean;
+  tags: string[];
+  liveUrl?: string;
+  repoUrl?: string;
 };
 
 export type ContactLink = {
@@ -64,15 +71,10 @@ export type SiteContent = {
     earlierTitle: string;
     earlier: Experience[];
   };
-  leadership: {
+  portfolio: {
     title: string;
     body: string;
-    items: Detail[];
-  };
-  awards: {
-    title: string;
-    body: string;
-    items: Award[];
+    projects: Project[];
   };
   socials: ContactLink[];
   footer: string;
@@ -80,14 +82,14 @@ export type SiteContent = {
 
 export const site: SiteContent = {
   meta: {
-    title: "Alex Dumitru — Lead UI Developer",
+    title: "Alex Dumitru",
     description:
       "Lead UI developer building high-performance web applications at quantitative trading firms.",
   },
   nav: [
     { label: "Experience", href: "#work" },
     { label: "Stack", href: "#stack" },
-    { label: "Leadership", href: "#leadership" },
+    { label: "Portfolio", href: "#portfolio" },
   ],
   hero: {
     eyebrow: "Lead UI Developer",
@@ -142,6 +144,7 @@ export const site: SiteContent = {
           "Led the React/TypeScript migration of portfolio-analysis tools. Implemented AG Grid viewport-model streaming over WebSockets, cutting initial network payloads from 800MB to 0.77KB. Cross-office collaboration between London and Paris.",
         tags: ["React", "TypeScript", "AG Grid", "WebSockets", "C#"],
         logo: "/logos/qrt.png",
+        url: "https://www.qube-rt.com",
       },
       {
         company: "Citadel",
@@ -151,14 +154,16 @@ export const site: SiteContent = {
           "Built trading dashboard applications with React, TypeScript, GraphQL and gRPC. Automated PnL analysis workflows and co-led development of a bank-wires processing application.",
         tags: ["React", "TypeScript", "GraphQL", "gRPC", "MUI"],
         logo: "/logos/citadel.png",
+        url: "https://www.citadel.com",
       },
       {
         company: "University of Manchester",
-        role: "BSc Computer Science & Mathematics",
+        role: "BSc. Computer Science & Mathematics",
         period: "2017 — 2020",
         summary: "Joint honours across computer science and mathematics.",
         tags: ["First Class Honours"],
         logo: "/logos/manchester.svg",
+        url: "https://www.manchester.ac.uk",
       },
     ],
     earlierTitle: "Earlier roles & internships",
@@ -168,58 +173,97 @@ export const site: SiteContent = {
         role: "Software Engineering Intern",
         period: "2019",
         logo: "/logos/improbable.png",
+        url: "https://www.improbable.io",
       },
       {
         company: "Morgan Stanley",
         role: "Technology Analyst Intern",
         period: "2018",
         logo: "/logos/morgan-stanley.png",
+        url: "https://www.morganstanley.com",
       },
       {
         company: "Pentalog",
         role: "Software Developer",
         period: "2017",
         logo: "/logos/pentalog.png",
+        url: "https://www.globant.com",
       },
       {
         company: "EXE Software",
         role: "Web Developer",
         period: "2016",
         logo: "/logos/exe.png",
+        url: "https://www.exesoftware.ro",
       },
     ],
   },
-  leadership: {
-    title: "Leadership",
-    body: "I lead through clarity and ownership — setting technical direction, unblocking teams, and keeping standards high without slowing delivery.",
-    items: [
+  portfolio: {
+    title: "Portfolio",
+    body: "A few things I've built outside of work — mostly finance and data interfaces, plus the odd experiment.",
+    projects: [
       {
-        title: "Team development",
-        body: "Grew people, not just code.",
-        points: [
-          "Managed an intern through to a full-time conversion",
-          "Technical mentoring at Pentalog",
-          "Cross-functional London/Paris collaboration at QRT",
-        ],
+        title: "Financial Dashboard",
+        description:
+          "A personal-finance dashboard for tracking net worth, income, spending and trends, with interactive charts and category breakdowns.",
+        image: "/projects/financial-dashboard.png",
+        featured: true,
+        tags: ["React", "TypeScript", "Charts"],
+        liveUrl: "https://financial-dashboard-beta-amber.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/financial-dashboard",
       },
       {
-        title: "Technical leadership",
-        body: "Drove architecture, review standards, and migrations across frontend teams.",
-        points: [
-          "Led the React/TypeScript migration at QRT",
-          "Co-led the bank-wires app at Citadel",
-          "Established component patterns and testing practices",
-        ],
+        title: "CodeWorks",
+        description:
+          "An online Java compiler, editor and coding academy — write and run code in the browser and solve practice problems. Built at a hackathon.",
+        image: "/projects/codeworks.png",
+        context: "Hackathon",
+        featured: true,
+        tags: ["Node.js", "Docker", "Socket.IO", "Firebase"],
+        liveUrl: "https://thecodeworks.fly.dev",
+        repoUrl: "https://github.com/alexdmtr/codeworks",
       },
-    ],
-  },
-  awards: {
-    title: "Awards",
-    body: "Competitive programming results from university and early career.",
-    items: [
-      { title: "Google Hash Code 2020", detail: "1st in Manchester · 4th in the UK" },
-      { title: "Goldman Sachs Algorithms Challenge 2018", detail: "1st place" },
-      { title: "Bet365 Coding Challenge 2020", detail: "2nd place" },
+      {
+        title: "Car Physics",
+        description:
+          "An interactive projectile-physics simulator with adjustable launch angle, mass and friction, built for a university physics module.",
+        image: "/projects/car-physics.png",
+        context: "University project",
+        featured: true,
+        tags: ["JavaScript", "Simulation", "Physics"],
+        liveUrl: "https://car-physics-eta.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/car-physics",
+      },
+      {
+        title: "Strategy Comparison",
+        description:
+          "A sortable grid for comparing quantitative trading strategies across performance metrics — a focused build in dense, data-heavy table UX.",
+        image: "/projects/strategy-comparison.png",
+        context: "Concept",
+        tags: ["React", "TypeScript", "Data grid"],
+        liveUrl: "https://strategy-comparison.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/strategy-comparison",
+      },
+      {
+        title: "Order Book",
+        description:
+          "A live crypto order book with real-time depth visualisation for BTC-USDT — a focused build demonstrating streaming-data UI.",
+        image: "/projects/order-book.png",
+        context: "Concept",
+        tags: ["React", "TypeScript", "Real-time"],
+        liveUrl: "https://order-book-phi-peach.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/order-book",
+      },
+      {
+        title: "Passport Power",
+        description:
+          "Passport Picker — explore and compare visa-free travel access across countries.",
+        image: "/projects/passport-power.png",
+        wip: true,
+        tags: ["React", "TypeScript", "Data viz"],
+        liveUrl: "https://passport-power.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/passport-power",
+      },
     ],
   },
   socials: [
