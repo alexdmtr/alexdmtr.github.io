@@ -251,6 +251,7 @@ export function PortfolioPage() {
         </section>
 
         {/* Metrics */}
+        {site.stats.length > 0 && (
         <section className={container} aria-label="Highlights">
           <div className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-pg-line bg-pg-line sm:grid-cols-3">
             {site.stats.map((stat, i) => (
@@ -270,6 +271,7 @@ export function PortfolioPage() {
             ))}
           </div>
         </section>
+        )}
 
         {/* Experience */}
         <section id="work" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
@@ -281,12 +283,12 @@ export function PortfolioPage() {
                 as="li"
                 key={role.company}
                 delay={i * 0.05}
-                className="flex gap-5 border-b border-pg-line pb-8 last:border-0 last:pb-0"
+                className="flex gap-4 border-b border-pg-line pb-8 last:border-0 last:pb-0 sm:gap-5"
               >
                 <CompanyLogo company={role.company} logo={role.logo} href={role.url} />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-[family-name:var(--font-display)] text-[1.5rem] font-bold tracking-[-0.02em]">
+                    <h3 className="font-[family-name:var(--font-display)] text-[1.35rem] font-bold tracking-[-0.02em] sm:text-[1.5rem]">
                       {role.url ? (
                         <a
                           href={role.url}
@@ -304,7 +306,9 @@ export function PortfolioPage() {
                   </div>
                   <p className="mt-0.5 text-sm font-medium text-pg-accent">{role.role}</p>
                   {role.summary && (
-                    <p className="mt-3 max-w-[52rem] leading-relaxed text-pg-muted">{role.summary}</p>
+                    <p className="mt-3 hidden max-w-[52rem] leading-relaxed text-pg-muted sm:block">
+                      {role.summary}
+                    </p>
                   )}
                   {role.tags && role.tags.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">

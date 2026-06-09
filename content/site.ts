@@ -101,11 +101,12 @@ export const site: SiteContent = {
     primaryCta: { label: "View work", href: "#work" },
     secondaryCta: { label: "Tech stack", href: "#stack" },
   },
-  stats: [
-    { value: "8+", label: "years of professional engineering, since 2016" },
-    { value: "800MB → 0.77KB", label: "network payload reduction at QRT" },
-    { value: "2min → 1s", label: "grid interaction time improvement" },
-  ],
+  // Metrics tiles hidden for now — headlines felt too niche. Restore by
+  // repopulating this array (the Metrics section renders only when non-empty).
+  // { value: "8+", label: "years of professional engineering, since 2016" },
+  // { value: "800MB → 0.77KB", label: "network payload reduction at QRT" },
+  // { value: "2min → 1s", label: "grid interaction time improvement" },
+  stats: [],
   stack: {
     title: "Tech stack",
     body: "Full-stack capability with a deep frontend specialism. I work across the stack but focus on building fast, maintainable interfaces for data-heavy applications.",
