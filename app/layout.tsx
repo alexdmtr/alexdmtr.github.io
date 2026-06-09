@@ -34,6 +34,7 @@ export const metadata: Metadata = {
 // stored in localStorage overrides it.
 const themeScript = `
 (function () {
+  document.documentElement.classList.add('js');
   try {
     var t = localStorage.getItem('alexdmtr-theme');
     if (t !== 'light' && t !== 'dark') {

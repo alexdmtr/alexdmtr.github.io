@@ -39,6 +39,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --color-pg-bg: #07080c;
   --color-pg-bg-soft: #0c0e14;
   --color-pg-surface: rgba(255, 255, 255, 0.035);
@@ -62,6 +63,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Themes native UI (scrollbar, form controls) to match. Overridden in .dark */
+    color-scheme: light;
   }
 
   body {
@@ -157,9 +160,29 @@
   }
 }
 
+/* Scroll reveal. Hidden state applies only when JS is available (`.js` set
+   pre-paint in layout.tsx), so no-JS visitors and crawlers always see content. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.6s cubic-bezier(0.21, 0.5, 0.3, 1),
+    transform 0.6s cubic-bezier(0.21, 0.5, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
   }
   .pg-glow {
     animation: none;
