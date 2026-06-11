@@ -31,16 +31,19 @@ export const metadata: Metadata = {
 
 // Set the theme class before paint to avoid a flash of the wrong theme.
 // Default follows the device (prefers-color-scheme); an explicit toggle choice
-// stored in localStorage overrides it.
+// stored in localStorage overrides it. data-theme-pref drives the toggle's icon
+// (sun / moon / monitor) via CSS, so it is also set before paint.
 const themeScript = `
 (function () {
   document.documentElement.classList.add('js');
   try {
     var t = localStorage.getItem('alexdmtr-theme');
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.classList.toggle('dark', t === 'dark');
+    var pref = t === 'light' || t === 'dark' ? t : 'system';
+    var dark = pref === 'system'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+      : pref === 'dark';
+    document.documentElement.setAttribute('data-theme-pref', pref);
+    document.documentElement.classList.toggle('dark', dark);
   } catch (e) {
     document.documentElement.classList.add('dark');
   }
@@ -56,6 +59,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-theme-pref="system"
       className={`dark ${inter.variable} ${interTight.variable}`}
     >
       <head>

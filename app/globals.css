@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Theme *preference* as set on <html data-theme-pref> by the no-flash script —
+   hides the "follow system theme" reset button while no explicit choice is
+   active. Distinct from `dark:` above, which tracks the *resolved* theme. */
+@custom-variant theme-system (&:is([data-theme-pref="system"] *));
+
 @theme {
   --font-sans: var(--font-inter), "Segoe UI", system-ui, sans-serif;
   --font-display: var(--font-inter-tight), var(--font-inter), system-ui, sans-serif;

@@ -48,7 +48,7 @@ lib/
 ## Theming
 
 - Dark is the default. `<html>` ships with `class="dark"`; a blocking script in `layout.tsx` applies the saved theme before paint to avoid a flash.
-- Toggle is `theme-toggle.tsx`, persisting to `localStorage` key `alexdmtr-theme`.
+- Toggle is `theme-toggle.tsx` — a segmented pill (`role="group"`) holding a one-click light/dark flip (sun/moon) and a back-arrow "back to system theme" segment that slides out to its right only while an explicit choice is active; collapsed, the pill is a 40px circle matching the nav's other round buttons. Explicit choices persist to `localStorage` key `alexdmtr-theme`; resetting clears the key and follows `prefers-color-scheme` live. The preference is mirrored on `<html data-theme-pref>` (set before paint by the no-flash script); the reset button's visibility uses the `theme-system` custom variant in `globals.css` (no flash or hydration mismatch), and its enter/exit animation is pure CSS via `starting:` (`@starting-style`) + `transition-discrete`.
 - Dark mode uses the `class="dark"` strategy; overrides live in the `.dark {}` block in `globals.css`.
 
 ## Styling conventions
@@ -64,7 +64,7 @@ lib/
 
 All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience (includes education), stack (tech), portfolio, footer.
 
-Portfolio projects (`site.portfolio.projects`, type `Project`) render as cards with a thumbnail from `public/projects/` (live-app screenshots; falls back to an accent-gradient placeholder if `image` is omitted), description, tag chips, and optional `liveUrl` / `repoUrl` links.
+Portfolio projects (`site.portfolio.projects`, type `Project`) render as cards with a thumbnail from `public/projects/` (live-app screenshots; falls back to an accent-gradient placeholder if `image` is omitted), description, tag chips, and optional `liveUrl` / `repoUrl` links. Apps that support dark mode also set `imageDark` (a `<name>-dark.png` capture of the app in dark theme), shown instead of `image` when the site theme is dark. Screenshots are 1000×625 (16:10, matching the card's aspect ratio); light/dark pairs are captured at the same viewport and app state so the swap doesn't shift framing.
 
 Experience is split into `roles` (featured — full timeline rows) and `earlier` (de-emphasised internships/early roles, rendered as a compact grid under `earlierTitle`). Education (University of Manchester) is a featured `role`, not a separate section. Each role can set `logo: "/logos/<file>"` (png or svg, from `public/logos/`); without one it falls back to an initials monogram (`CompanyLogo`, which has an `sm` variant for the earlier grid). `period`, `summary`, and `tags` are optional. Logo tiles use the theme-aware `--color-pg-tile` token so any logo colour reads in both themes.
 
