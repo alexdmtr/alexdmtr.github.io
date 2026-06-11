@@ -80,12 +80,23 @@ function ProjectCard({ project }: { project: Project }) {
             loading="lazy"
             className={`h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] ${
               project.wip ? "opacity-45 grayscale" : ""
-            }`}
+            } ${project.imageDark ? "dark:hidden" : ""}`}
           />
         ) : (
           <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-pg-accent to-pg-accent-2 p-4 text-center font-[family-name:var(--font-display)] text-2xl font-bold tracking-[-0.02em] text-white">
             {project.title}
           </span>
+        )}
+        {project.imageDark && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={project.imageDark}
+            alt={`${project.title} screenshot`}
+            loading="lazy"
+            className={`hidden h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] dark:block ${
+              project.wip ? "opacity-45 grayscale" : ""
+            }`}
+          />
         )}
       </a>
       <div className="flex flex-1 flex-col p-5">

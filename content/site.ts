@@ -26,6 +26,8 @@ export type Project = {
   description: string;
   /** Thumbnail in public/projects/. Falls back to a gradient placeholder if omitted. */
   image?: string;
+  /** Dark-mode thumbnail, shown instead of `image` when the site theme is dark. */
+  imageDark?: string;
   /** Short context badge shown on the thumbnail, e.g. "Hackathon". */
   context?: string;
   /** Highlights the card with an accent border + "Featured" label. */
@@ -208,6 +210,7 @@ export const site: SiteContent = {
         description:
           "A personal-finance dashboard for tracking net worth, income, spending and trends, with interactive charts and category breakdowns.",
         image: "/projects/financial-dashboard.png",
+        imageDark: "/projects/financial-dashboard-dark.png",
         featured: true,
         tags: ["React", "TypeScript", "Charts"],
         liveUrl: "https://financial-dashboard-beta-amber.vercel.app",
@@ -225,6 +228,17 @@ export const site: SiteContent = {
         repoUrl: "https://github.com/alexdmtr/codeworks",
       },
       {
+        title: "Passport Power",
+        description:
+          "Pick a passport to see its global mobility score and visa requirements — visa-free, on-arrival, eTA and e-Visa — across 199 destinations.",
+        image: "/projects/passport-power.png",
+        imageDark: "/projects/passport-power-dark.png",
+        wip: true,
+        tags: ["React", "TypeScript", "Data viz"],
+        liveUrl: "https://passport-power.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/passport-power",
+      },
+      {
         title: "Car Physics",
         description:
           "An interactive projectile-physics simulator with adjustable launch angle, mass and friction, built for a university physics module.",
@@ -240,6 +254,7 @@ export const site: SiteContent = {
         description:
           "A sortable grid for comparing quantitative trading strategies across performance metrics — a focused build in dense, data-heavy table UX.",
         image: "/projects/strategy-comparison.png",
+        imageDark: "/projects/strategy-comparison-dark.png",
         context: "Concept",
         tags: ["React", "TypeScript", "Data grid"],
         liveUrl: "https://strategy-comparison.vercel.app",
@@ -250,20 +265,11 @@ export const site: SiteContent = {
         description:
           "A live crypto order book with real-time depth visualisation for BTC-USDT — a focused build demonstrating streaming-data UI.",
         image: "/projects/order-book.png",
+        imageDark: "/projects/order-book-dark.png",
         context: "Concept",
         tags: ["React", "TypeScript", "Real-time"],
         liveUrl: "https://order-book-phi-peach.vercel.app",
         repoUrl: "https://github.com/alexdmtr/order-book",
-      },
-      {
-        title: "Passport Power",
-        description:
-          "Passport Picker — explore and compare visa-free travel access across countries.",
-        image: "/projects/passport-power.png",
-        wip: true,
-        tags: ["React", "TypeScript", "Data viz"],
-        liveUrl: "https://passport-power.vercel.app",
-        repoUrl: "https://github.com/alexdmtr/passport-power",
       },
     ],
   },
