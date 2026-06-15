@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, Inter_Tight } from "next/font/google";
 
-import { site } from "@/content/site";
-import "./globals.css";
-
+// Fonts and the no-flash theme script are shared by both locale root layouts
+// (app/(en) and app/(ro)) so they are declared once here. next/font must be
+// called at module scope; importing the result keeps a single font instance.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -17,23 +16,13 @@ const interTight = Inter_Tight({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://alexdmtr.github.io"),
-  title: site.meta.title,
-  description: site.meta.description,
-  openGraph: {
-    title: site.meta.title,
-    description: site.meta.description,
-    type: "website",
-    url: "https://alexdmtr.github.io",
-  },
-};
+export const fontVars = `${inter.variable} ${interTight.variable}`;
 
 // Set the theme class before paint to avoid a flash of the wrong theme.
 // Default follows the device (prefers-color-scheme); an explicit toggle choice
 // stored in localStorage overrides it. data-theme-pref drives the toggle's icon
 // (sun / moon / monitor) via CSS, so it is also set before paint.
-const themeScript = `
+export const themeScript = `
 (function () {
   document.documentElement.classList.add('js');
   try {
@@ -50,27 +39,14 @@ const themeScript = `
 })();
 `;
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+/** Shared <body> with the background mesh/glow layers. */
+export function Shell({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      data-theme-pref="system"
-      className={`dark ${inter.variable} ${interTight.variable}`}
-    >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
-      <body>
-        <div className="pg-grid" aria-hidden="true" />
-        <div className="pg-glow pg-glow--a" aria-hidden="true" />
-        <div className="pg-glow pg-glow--b" aria-hidden="true" />
-        {children}
-      </body>
-    </html>
+    <body>
+      <div className="pg-grid" aria-hidden="true" />
+      <div className="pg-glow pg-glow--a" aria-hidden="true" />
+      <div className="pg-glow pg-glow--b" aria-hidden="true" />
+      {children}
+    </body>
   );
 }

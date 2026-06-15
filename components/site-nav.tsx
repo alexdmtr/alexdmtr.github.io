@@ -3,20 +3,28 @@
 import { useEffect, useState } from "react";
 import { Github, Linkedin, Menu, X } from "lucide-react";
 
-import { site } from "@/content/site";
+import type { Locale, SiteContent } from "@/content/site";
+import { LanguageToggle } from "./language-toggle";
 import { ThemeToggle } from "./theme-toggle";
 
-const sectionIds = site.nav.map((item) => item.href.replace("#", ""));
 const socialIcons = { GitHub: Github, LinkedIn: Linkedin } as const;
-const socials = site.socials.map((social) => ({
-  ...social,
-  Icon: socialIcons[social.label as keyof typeof socialIcons] ?? Github,
-}));
 
-export function SiteNav() {
+export function SiteNav({
+  content,
+  locale,
+}: {
+  content: SiteContent;
+  locale: Locale;
+}) {
   const [active, setActive] = useState<string>("");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const sectionIds = content.nav.map((item) => item.href.replace("#", ""));
+  const socials = content.socials.map((social) => ({
+    ...social,
+    Icon: socialIcons[social.label as keyof typeof socialIcons] ?? Github,
+  }));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -40,6 +48,7 @@ export function SiteNav() {
       if (el) observer.observe(el);
     }
     return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -58,8 +67,8 @@ export function SiteNav() {
           <span className="text-sm font-medium tracking-tight">Alex Dumitru</span>
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Sections">
-          {site.nav.map((item) => {
+        <nav className="hidden items-center gap-1 md:flex" aria-label={content.ui.nav.sections}>
+          {content.nav.map((item) => {
             const id = item.href.replace("#", "");
             const isActive = active === id;
             return (
@@ -91,11 +100,12 @@ export function SiteNav() {
               <Icon className="h-[1.05rem] w-[1.05rem]" />
             </a>
           ))}
-          <ThemeToggle />
+          <LanguageToggle locale={locale} label={content.ui.language} />
+          <ThemeToggle labels={content.ui.theme} />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? content.ui.nav.closeMenu : content.ui.nav.openMenu}
             aria-expanded={open}
             className="grid h-10 w-10 place-items-center rounded-full border border-pg-line bg-pg-surface text-pg-text backdrop-blur-md md:hidden"
           >
@@ -107,10 +117,10 @@ export function SiteNav() {
       {open && (
         <nav
           className="border-t border-pg-line bg-pg-bg/95 backdrop-blur-xl md:hidden"
-          aria-label="Sections"
+          aria-label={content.ui.nav.sections}
         >
           <div className="mx-auto flex w-full max-w-[1100px] flex-col px-[var(--spacing-page)] py-2">
-            {site.nav.map((item) => (
+            {content.nav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}

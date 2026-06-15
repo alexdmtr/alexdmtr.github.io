@@ -2,7 +2,7 @@
 
 ## Project overview
 
-Personal portfolio site for Alex Dumitru, deployed at alexdmtr.github.io. Single-page, English-only static site built with Next.js 15 and exported to GitHub Pages. Design: modern dark-default with a light toggle and scroll-triggered motion.
+Personal portfolio site for Alex Dumitru, deployed at alexdmtr.github.io. Single-page static site built with Next.js 15 and exported to GitHub Pages, in two languages: English at `/` and Romanian at `/ro`. Design: modern dark-default with a light toggle and scroll-triggered motion.
 
 ## Commands
 
@@ -23,27 +23,36 @@ Personal portfolio site for Alex Dumitru, deployed at alexdmtr.github.io. Single
 
 ```
 app/
-  layout.tsx          — root layout, fonts (next/font), metadata, no-flash theme script, background layers
-  page.tsx            — root route, renders <PortfolioPage />
-  not-found.tsx       — 404 page
+  shell.tsx           — shared (non-route) module: fonts (next/font), no-flash theme script, <body> + background layers. Imported by both root layouts.
+  (en)/
+    layout.tsx        — root layout for English (<html lang="en">), metadata + hreflang alternates
+    page.tsx          — `/` route, renders <PortfolioPage locale="en" />
+    not-found.tsx     — global 404 (route group is path-transparent, so this serves "/")
+  (ro)/
+    layout.tsx        — root layout for Romanian (<html lang="ro">), metadata + hreflang alternates
+    ro/page.tsx       — `/ro` route, renders <PortfolioPage locale="ro" />
   globals.css         — Tailwind import, @theme tokens, .dark overrides, background mesh/glow, keyframes
 
 components/
-  portfolio-page.tsx  — main portfolio (all sections), server component
-  site-nav.tsx        — client: sticky nav, scroll-spy active highlight, mobile menu
-  theme-toggle.tsx    — client: light/dark toggle (sun/moon), persists to localStorage
+  portfolio-page.tsx  — main portfolio (all sections); takes a `locale` prop, server component
+  site-nav.tsx        — client: sticky nav, scroll-spy active highlight, mobile menu; takes `content` + `locale`
+  theme-toggle.tsx    — client: light/dark toggle (sun/moon), persists to localStorage; takes localized `labels`
+  language-toggle.tsx — client: round translate-icon (lucide Languages) button opening a dropdown menu of languages (own-name labels, check on active), each a next/link to `/` or `/ro`; closes on outside-click / Escape
   reveal.tsx          — client: Framer Motion scroll-reveal wrapper
 
 content/
-  site.ts             — single typed content source (types + data), English only
+  site.ts             — typed content source (types + data) per locale: `content.en` / `content.ro`
 
 lib/
   utils.ts            — cn() utility
 ```
 
-## Routing
+## Routing & i18n
 
-- Single route `/` only. No i18n / locale routing.
+- Two routes: `/` (English) and `/ro` (Romanian), each a separately pre-rendered static page.
+- **Multiple root layouts** via route groups (`app/(en)`, `app/(ro)`) so each locale's static HTML gets the correct `<html lang>`. There is no top-level `app/layout.tsx`; shared bits (fonts, theme script, body shell) live in `app/shell.tsx` and are imported by both. The global `not-found.tsx` must sit inside a route group (it's in `(en)`) so it has a root layout.
+- `next.config.mjs` sets `trailingSlash: true` so the export emits `out/ro/index.html` (directory-style URLs) rather than `ro.html`.
+- Each layout sets `alternates.languages` (hreflang en-GB / ro-RO / x-default) and `openGraph.locale` for SEO. Adding a locale = new content entry + new route group + new layout.
 
 ## Theming
 
@@ -62,7 +71,7 @@ lib/
 
 ## Content editing
 
-All copy lives in `content/site.ts` as a typed `SiteContent` object — edit the data, types are colocated. Sections: hero, stats, experience (includes education), stack (tech), portfolio, footer.
+All copy lives in `content/site.ts` as typed `SiteContent` objects, one per locale, exported as `content: Record<Locale, SiteContent>` (`content.en`, `content.ro`) — edit the data, types are colocated. **Keep the two locales structurally in sync** (same projects, roles, ordering); only the human-readable strings differ. Proper nouns (company names, product/project titles, tech in `tags`) stay in English; prose and descriptive tags get translated. Sections: meta, nav, hero, stats, experience (includes education), stack (tech), portfolio, socials, footer, plus a `ui` block for interface chrome (section eyebrows, the Featured/WIP project badges, and nav/theme/language control labels).
 
 Portfolio projects (`site.portfolio.projects`, type `Project`) render as cards with a thumbnail from `public/projects/` (live-app screenshots; falls back to an accent-gradient placeholder if `image` is omitted), description, tag chips, and optional `liveUrl` / `repoUrl` links. Apps that support dark mode also set `imageDark` (a `<name>-dark.png` capture of the app in dark theme), shown instead of `image` when the site theme is dark. Screenshots are 1000×625 (16:10, matching the card's aspect ratio); light/dark pairs are captured at the same viewport and app state so the swap doesn't shift framing.
 

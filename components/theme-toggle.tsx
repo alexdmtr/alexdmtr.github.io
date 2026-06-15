@@ -9,7 +9,14 @@ const THEME_KEY = "alexdmtr-theme";
 
 const iconStyle = "h-[1.05rem] w-[1.05rem]";
 
-export function ThemeToggle() {
+type ThemeLabels = {
+  group: string;
+  toLight: string;
+  toDark: string;
+  system: string;
+};
+
+export function ThemeToggle({ labels }: { labels: ThemeLabels }) {
   // Resolved theme, for the toggle's label. SSR + first paint assume dark
   // (matches <html class="dark">); the visible icons and the reset button's
   // visibility are driven by CSS off <html>, not this state.
@@ -47,13 +54,13 @@ export function ThemeToggle() {
   return (
     <div
       role="group"
-      aria-label="Theme"
+      aria-label={labels.group}
       className="flex items-center overflow-hidden rounded-full border border-pg-line bg-pg-surface backdrop-blur-md transition-colors duration-200 hover:border-pg-line-strong"
     >
       <button
         type="button"
         onClick={() => setPref(dark ? "light" : "dark")}
-        aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+        aria-label={dark ? labels.toLight : labels.toDark}
         className="grid h-9.5 w-9.5 place-items-center text-pg-text transition-colors duration-200 hover:text-pg-accent"
       >
         <Sun className={`hidden ${iconStyle} dark:block`} />
@@ -66,8 +73,8 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => setPref("system")}
-        aria-label="Return to system theme"
-        title="Return to system theme"
+        aria-label={labels.system}
+        title={labels.system}
         className="grid h-9.5 w-9.5 place-items-center border-l border-pg-line text-pg-muted transition-[display,opacity,margin-left,color] transition-discrete duration-300 motion-reduce:transition-none starting:-ml-[2.4375rem] starting:opacity-0 theme-system:-ml-[2.4375rem] theme-system:hidden theme-system:opacity-0 hover:text-pg-accent"
       >
         {/* Screen icon with a small "return" arrow badged on its bottom-left.

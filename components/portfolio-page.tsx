@@ -1,7 +1,7 @@
 import { ArrowDownRight, ArrowUpRight, Github } from "lucide-react";
 
-import { site } from "@/content/site";
-import type { Project } from "@/content/site";
+import { content } from "@/content/site";
+import type { Locale, Project, SiteContent } from "@/content/site";
 import { Reveal } from "./reveal";
 import { SiteNav } from "./site-nav";
 
@@ -39,7 +39,13 @@ function Chip({ children }: { children: string }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  labels,
+}: {
+  project: Project;
+  labels: SiteContent["ui"]["project"];
+}) {
   const primary = project.liveUrl ?? project.repoUrl;
   return (
     <article
@@ -64,12 +70,12 @@ function ProjectCard({ project }: { project: Project }) {
                 : "bg-black/55 text-white"
             }`}
           >
-            {project.wip ? "Work in progress" : project.context}
+            {project.wip ? labels.wip : project.context}
           </span>
         )}
         {project.featured && (
           <span className="absolute right-3 top-3 z-10 rounded-full bg-pg-accent px-2.5 py-1 text-[0.7rem] font-semibold tracking-wide text-white">
-            Featured
+            {labels.featured}
           </span>
         )}
         {project.image ? (
@@ -200,10 +206,11 @@ function CompanyLogo({
   );
 }
 
-export function PortfolioPage() {
+export function PortfolioPage({ locale }: { locale: Locale }) {
+  const site = content[locale];
   return (
     <>
-      <SiteNav />
+      <SiteNav content={site} locale={locale} />
 
       <main id="top" className="relative">
         {/* Hero */}
@@ -286,7 +293,7 @@ export function PortfolioPage() {
 
         {/* Experience */}
         <section id="work" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
-          <SectionHeading index="01 / Experience" title={site.experience.title} body={site.experience.body} />
+          <SectionHeading index={`01 / ${site.ui.sections.experience}`} title={site.experience.title} body={site.experience.body} />
 
           <ol className="grid gap-8">
             {site.experience.roles.map((role, i) => (
@@ -370,7 +377,7 @@ export function PortfolioPage() {
 
         {/* Tech stack */}
         <section id="stack" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
-          <SectionHeading index="02 / Toolkit" title={site.stack.title} body={site.stack.body} />
+          <SectionHeading index={`02 / ${site.ui.sections.toolkit}`} title={site.stack.title} body={site.stack.body} />
           <div className="grid gap-4 md:grid-cols-2">
             {site.stack.groups.map((group, i) => (
               <Reveal
@@ -400,11 +407,11 @@ export function PortfolioPage() {
 
         {/* Portfolio */}
         <section id="portfolio" className={`${container} mt-[var(--spacing-section)] scroll-mt-24`}>
-          <SectionHeading index="03 / Portfolio" title={site.portfolio.title} body={site.portfolio.body} />
+          <SectionHeading index={`03 / ${site.ui.sections.portfolio}`} title={site.portfolio.title} body={site.portfolio.body} />
           <div className="grid gap-5 sm:grid-cols-2">
             {site.portfolio.projects.map((project, i) => (
               <Reveal key={project.title} delay={(i % 2) * 0.08} className="h-full">
-                <ProjectCard project={project} />
+                <ProjectCard project={project} labels={site.ui.project} />
               </Reveal>
             ))}
           </div>

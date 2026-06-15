@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+// Global 404. Lives in the (en) route group so it inherits a root layout
+// (App Router requires every page to have one); the path is still "/".
 export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-[1100px] flex-col items-start justify-center gap-6 px-[var(--spacing-page)]">
