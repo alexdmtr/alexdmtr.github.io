@@ -17,7 +17,7 @@ Personal portfolio site for Alex Dumitru, deployed at alexdmtr.github.io. Single
 - **Tailwind CSS v4** with `@tailwindcss/postcss` — config is CSS-first (`@theme` block in `globals.css`), no `tailwind.config.js`
 - **Framer Motion** — scroll-reveal animations via the `Reveal` wrapper (`components/reveal.tsx`)
 - **lucide-react** — icons
-- `lib/utils.ts` has the `cn()` helper (clsx + tailwind-merge). `components/ui/button.tsx` is an unused shadcn leftover.
+- `lib/utils.ts` has the `cn()` helper (clsx + tailwind-merge). `components.json` configures the shadcn CLI for ad-hoc component generation via `npx shadcn@latest` (the `shadcn` package is intentionally **not** a dependency).
 
 ## Project structure
 
