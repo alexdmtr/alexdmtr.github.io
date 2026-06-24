@@ -120,7 +120,7 @@ const en: SiteContent = {
     location: "London, UK",
     status: "Open to interesting conversations",
     primaryCta: { label: "Experience", href: "#work" },
-    secondaryCta: { label: "Tech stack", href: "#stack" },
+    secondaryCta: { label: "Portfolio", href: "#portfolio" },
   },
   // Metrics tiles hidden for now — headlines felt too niche. Restore by
   // repopulating this array (the Metrics section renders only when non-empty).
@@ -225,6 +225,17 @@ const en: SiteContent = {
     body: "A few things I've built outside of work — mostly finance and data interfaces, plus the odd experiment.",
     projects: [
       {
+        title: "Passport Power",
+        description:
+          "Pick a passport to see its global mobility score and visa requirements — visa-free, on-arrival, eTA and e-Visa — across 199 destinations.",
+        image: "/projects/passport-power.png",
+        imageDark: "/projects/passport-power-dark.png",
+        featured: true,
+        tags: ["React", "TypeScript", "Data viz"],
+        liveUrl: "https://passport-power.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/passport-power",
+      },
+      {
         title: "Financial Dashboard",
         description:
           "A personal-finance dashboard for tracking net worth, income, spending and trends, with interactive charts and category breakdowns.",
@@ -245,17 +256,6 @@ const en: SiteContent = {
         tags: ["Node.js", "Docker", "Socket.IO", "Firebase"],
         liveUrl: "https://thecodeworks.fly.dev",
         repoUrl: "https://github.com/alexdmtr/codeworks",
-      },
-      {
-        title: "Passport Power",
-        description:
-          "Pick a passport to see its global mobility score and visa requirements — visa-free, on-arrival, eTA and e-Visa — across 199 destinations.",
-        image: "/projects/passport-power.png",
-        imageDark: "/projects/passport-power-dark.png",
-        wip: true,
-        tags: ["React", "TypeScript", "Data viz"],
-        liveUrl: "https://passport-power.vercel.app",
-        repoUrl: "https://github.com/alexdmtr/passport-power",
       },
       {
         title: "Car Physics",
@@ -342,7 +342,7 @@ const ro: SiteContent = {
     location: "Londra, Marea Britanie",
     status: "Deschis la conversații interesante",
     primaryCta: { label: "Experiență", href: "#work" },
-    secondaryCta: { label: "Tehnologii", href: "#stack" },
+    secondaryCta: { label: "Portofoliu", href: "#portfolio" },
   },
   stats: [],
   stack: {
@@ -442,6 +442,17 @@ const ro: SiteContent = {
     body: "Câteva lucruri pe care le-am construit în afara muncii — în mare parte interfețe de finanțe și date, plus câte un experiment ocazional.",
     projects: [
       {
+        title: "Passport Power",
+        description:
+          "Alege un pașaport pentru a-i vedea scorul de mobilitate globală și cerințele de viză — fără viză, la sosire, eTA și e-Visa — pentru 199 de destinații.",
+        image: "/projects/passport-power.png",
+        imageDark: "/projects/passport-power-dark.png",
+        featured: true,
+        tags: ["React", "TypeScript", "Vizualizare date"],
+        liveUrl: "https://passport-power.vercel.app",
+        repoUrl: "https://github.com/alexdmtr/passport-power",
+      },
+      {
         title: "Financial Dashboard",
         description:
           "Un dashboard de finanțe personale pentru urmărirea averii nete, veniturilor, cheltuielilor și tendințelor, cu grafice interactive și defalcări pe categorii.",
@@ -462,17 +473,6 @@ const ro: SiteContent = {
         tags: ["Node.js", "Docker", "Socket.IO", "Firebase"],
         liveUrl: "https://thecodeworks.fly.dev",
         repoUrl: "https://github.com/alexdmtr/codeworks",
-      },
-      {
-        title: "Passport Power",
-        description:
-          "Alege un pașaport pentru a-i vedea scorul de mobilitate globală și cerințele de viză — fără viză, la sosire, eTA și e-Visa — pentru 199 de destinații.",
-        image: "/projects/passport-power.png",
-        imageDark: "/projects/passport-power-dark.png",
-        wip: true,
-        tags: ["React", "TypeScript", "Vizualizare date"],
-        liveUrl: "https://passport-power.vercel.app",
-        repoUrl: "https://github.com/alexdmtr/passport-power",
       },
       {
         title: "Car Physics",
